@@ -2,17 +2,95 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public GridManager gridManager;
+    public VisualGridManager visualGridManager;
+
+    /*
+     * 0 muro
+     * 1 piso
+     * 2 arbol
+     * 3 personaje
+     * 
+     */
+
     void Start()
     {
-        
+        gridManager.SetGrid();
+        gridManager.ChangeAllTiles(1, gridManager.GetGrid());
+        gridManager.SetPlayer( gridManager.ChangeTileRandom(3, gridManager.GetGrid()));
+        gridManager.ShowGrid(gridManager.GetGrid());
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            Vector2Int playerPos = gridManager.GetPlayerPos();
+            Vector2Int NewPlayerPos = new Vector2Int(playerPos.x, playerPos.y +1);
+            if (NewPlayerPos.y < gridManager.GetGrid().GetLength(0) && NewPlayerPos.y >= 0)
+            {
+                gridManager.MovePlayerToPos(NewPlayerPos, gridManager.GetGrid());
+                gridManager.ShowGrid(gridManager.GetGrid());
+            }
+            else
+            {
+                print("Limite Y");
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Vector2Int playerPos = gridManager.GetPlayerPos();
+            Vector2Int NewPlayerPos = new Vector2Int(playerPos.x, playerPos.y -1 );
+            if (NewPlayerPos.y < gridManager.GetGrid().GetLength(0)  && NewPlayerPos.y >= 0)
+            {
+                gridManager.MovePlayerToPos(NewPlayerPos, gridManager.GetGrid());
+                gridManager.ShowGrid(gridManager.GetGrid());
+            }
+            else
+            {
+                print("Limite Y");
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Vector2Int playerPos = gridManager.GetPlayerPos();
+            Vector2Int NewPlayerPos = new Vector2Int(playerPos.x+1, playerPos.y );
+            if (NewPlayerPos.x < gridManager.GetGrid().GetLength(1) && NewPlayerPos.x >= 0)
+            {
+                gridManager.MovePlayerToPos(NewPlayerPos, gridManager.GetGrid());
+                gridManager.ShowGrid(gridManager.GetGrid());
+            }
+            else
+            {
+                print("Limite X");
+
+                /*gridManager.MovePlayerToPos(new Vector2Int(0, NewPlayerPos.y), gridManager.GetGrid());
+                gridManager.ShowGrid(gridManager.GetGrid());*/
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Vector2Int playerPos = gridManager.GetPlayerPos();
+            Vector2Int NewPlayerPos = new Vector2Int(playerPos.x - 1, playerPos.y);
+            if (NewPlayerPos.x < gridManager.GetGrid().GetLength(1) && NewPlayerPos.x >= 0)
+            {
+                gridManager.MovePlayerToPos(NewPlayerPos, gridManager.GetGrid());
+                gridManager.ShowGrid(gridManager.GetGrid());
+            }
+            else
+            {
+                print("Limite X");
+            }
+
+        }
     }
+
+
+
 }
 
 
